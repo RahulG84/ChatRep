@@ -61,6 +61,8 @@ app.post("/signup", async (req, res) => {
       firstName
     });
 
+    await newUser.save();
+
     res.status(201).json({ message: "Signup successful. You can now login." });
 
     // await new User({
@@ -109,7 +111,7 @@ if (process.env.NODE_ENV == "production") {
 
   app.use(express.static(path.resolve(__dirname, "client", "build")));
 
-  app.get("/", (req, res) => {
+  app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
