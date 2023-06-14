@@ -87,20 +87,20 @@ app.post("/signin", async (req, res) => {
     if (!userExists) {
       return res.status(404).json({ error: "user not exists, please signUp" });
     }
-    const isPasswordValid = await bcrypt.compare(password, userExists.password);
-    if (isPasswordValid) {
-      const token = jwt.sign({ userId: userExists._id }, JWT_SECRET_TOKEN);
-      return res.status(200).json({ token, firstName: userExists.firstName });
-    } else {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-    // if (password === userExists.password) {
-    //   // const firstName = userExists.firstName;
+    // const isPasswordValid = await bcrypt.compare(password, userExists.password);
+    // if (isPasswordValid) {
     //   const token = jwt.sign({ userId: userExists._id }, JWT_SECRET_TOKEN);
-    //   res.status(200).json({ token, firstName: userExists.firstName });
+    //   return res.status(200).json({ token, firstName: userExists.firstName });
     // } else {
     //   return res.status(401).json({ error: "Invalid email or password" });
     // }
+    if (password === userExists.password) {
+      // const firstName = userExists.firstName;
+      const token = jwt.sign({ userId: userExists._id }, JWT_SECRET_TOKEN);
+      res.status(200).json({ token, firstName: userExists.firstName });
+    } else {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
   } catch (err) {
     console.log(err);
   }
